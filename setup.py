@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 HYPHEN_E_DOT = '-e .'
 def get_requirements(file_path):
     """
-    This function will return the list of requirments
+    This function will return the list of requirements
     
     :param file_path: the file address of the requirements.txt file
     """

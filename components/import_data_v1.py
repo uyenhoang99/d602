@@ -18,7 +18,7 @@ def import_data():
     try: 
         # Import the dataset
         print("Importing the dataset")
-        df = pd.read_csv("C:/Users/uyen/Desktop/d602/notebook/T_ONTIME_REPORTING.csv")
+        df = pd.read_csv("notebook\T_ONTIME_REPORTING.csv")
 
         # Inspect the dataset
         print("\nCounting the number of columns and rows of the dataset:")
@@ -31,8 +31,8 @@ def import_data():
         print("Column names: ", df.columns)
 
         # Output the raw imported data
-        print("\nOuput the raw imported dataset into the artifacts folder")
-        df.to_csv("artifacts/data.csv", index = False, header = True)
+        print("\nOutput the raw imported dataset into the artifacts folder")
+        df.to_csv("artifacts\data.csv", index = False, header = True)
 
         # Complete the data import process
         print("\nData has been successfully imported")
