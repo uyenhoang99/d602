@@ -10,6 +10,8 @@ This script cleans data from from the raw imported data file.
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def filter_and_clean_data():
     """
@@ -45,15 +47,38 @@ def filter_and_clean_data():
         else:
             print("Warning: failed to filter for LAX departures")
         
-        # # Data cleaning step 1: check for missing values and remove rows with missing departure delay
-        # print("Cleaning step 1: Check for missing values")
-        # missing_vals = df_filtered.isna().sum()
-        # print("There are ", missing_vals, "in the dataset")
+        # Data cleaning step 1: check for missing values and remove rows with missing departure delay
+        print("\nCleaning step 1: Check for missing values")
+        missing_vals = df_filtered.isna().sum()
+        print("Missing values per column:\n ", missing_vals)
         
-        # if missing_vals > 0:
-        #     print("Delete missing values")
-        #     initial_rows = len(df_filtered)
-        #     df_filtered = df_filtered.dropna(subset=["DEP_DELAY"])
+        sum_missing_vals = df_filtered.isna().sum().sum()
+        if sum_missing_vals > 0:
+            print("\nDelete missing values")
+            initial_rows = len(df_filtered)
+            df_filtered = df_filtered.dropna(how='any')
+            print(f"Removed {initial_rows - len(df_filtered)} rows with missing departure delays")
+        
+        # Data cleaning step 2: check for outliers in the departure delay column and remove rows with extreme outliers
+        dep_delay_q1 = np.quantile(df_filtered["DEP_DELAY"], 0.25)
+        dep_delay_q3 = np.quantile(df_filtered["DEP_DELAY"], 0.75)
+        iqr = dep_delay_q3 - dep_delay_q1
+        lower_bound = dep_delay_q1 - 1.5 * iqr
+        upper_bound = dep_delay_q3 + 1.5 * iqr
+        extreme_lb = [i for i in df_filtered["DEP_DELAY"] if i < lower_bound]
+        extreme_ub = [i for i in df_filtered["DEP_DELAY"] if i > upper_bound]
+        print("\nThe lower bound extreme value is ", lower_bound)
+        print("There are ", len(extreme_lb), "flights that departed earlier than 30 minutes")
+        print("The upper bound extreme value is ", upper_bound)
+        print("There are ", len(extreme_ub), "flights delayed more than 34 minutes")
+
+        # sns.histplot(df_filtered["DEP_DELAY"])
+        # plt.show()
+
+        # print(dep_delay_q3)
+
+
+
 
 
 
