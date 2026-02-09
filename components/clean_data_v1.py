@@ -68,14 +68,13 @@ def filter_and_clean_data():
         extreme_lb = [i for i in df_filtered["DEP_DELAY"] if i < lower_bound]
         extreme_ub = [i for i in df_filtered["DEP_DELAY"] if i > upper_bound]
         print("\nThe lower bound extreme value is ", lower_bound)
-        print("There are ", len(extreme_lb), "flights that departed earlier than 30 minutes")
+        print("There are", len(extreme_lb), "flights that departed earlier than 30 minutes")
         print("The upper bound extreme value is ", upper_bound)
-        print("There are ", len(extreme_ub), "flights delayed more than 34 minutes")
-
-        # sns.histplot(df_filtered["DEP_DELAY"])
-        # plt.show()
-
-        # print(dep_delay_q3)
+        print("There are", len(extreme_ub), "flights delayed more than 34 minutes")
+        print("Remove flights that are delayed for more than 200 minutes")
+        initial_rows = len(df_filtered)
+        df_filtered = df_filtered[df_filtered["DEP_DELAY"] <= 200]
+        print(f"Removed {initial_rows - len(df_filtered)} rows with extreme delays")
 
 
 
