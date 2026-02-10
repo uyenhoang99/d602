@@ -71,22 +71,59 @@ def filter_and_clean_data():
         print("There are", len(extreme_lb), "flights that departed earlier than 30 minutes")
         print("The upper bound extreme value is ", upper_bound)
         print("There are", len(extreme_ub), "flights delayed more than 34 minutes")
-        print("Remove flights that are delayed for more than 200 minutes")
+        print("Remove flights that are delayed for more than 60 minutes")
         initial_rows = len(df_filtered)
-        df_filtered = df_filtered[df_filtered["DEP_DELAY"] <= 200]
+        df_filtered = df_filtered[df_filtered["DEP_DELAY"] <= 60]
         print(f"Removed {initial_rows - len(df_filtered)} rows with extreme delays")
 
+        # Data cleaning step 3: create a 'DATE' column
+        # Change "DAY_OF_MONTH" to "DAY"
+        print("\nChanging the column 'DAY_OF_MONTH' to 'DAY'")
+        df_filtered.rename(columns={"DAY_OF_MONTH": "DAY"}, inplace=True)
+        # Create new column "DATE"
+        print("Create a new column 'DATE' by combining the columns")
+        df_filtered["DATE"] = pd.to_datetime(df_filtered[["YEAR", "MONTH", "DAY"]])
+        print(df_filtered.head())
 
+        # Data cleaning step 4: check the "MONTH" and "YEAR" columns to ensure each column only has 1 value
+        months = df_filtered["MONTH"].unique()
+        years = df_filtered["YEAR"].unique()
+        if len(months) > 1:
+            print("\nThere are more than 1 month in the 'MONTH' column")
+        else:
+            month = months[0]
+            print("There is only 1 month in the 'MONTH' column:", month)
+        if len(years) > 1:
+            print("There are more than 1 years in the 'YEAR' column")
+        else:
+            year = years[0]
+            print("There is only one year in the 'YEAR' column:", year)
+        
+        # Data cleaning step 5: change 'float' columns to 'integer' columns
+        df_filtered["DEP_TIME"] = df_filtered["DEP_TIME"].astype("int64")
+        df_filtered["DEP_DELAY"] = df_filtered["DEP_DELAY"].astype("int64")
+        df_filtered["ARR_TIME"] = df_filtered["ARR_TIME"].astype("int64")
+        df_filtered["ARR_DELAY"] = df_filtered["ARR_DELAY"].astype("int64")
+        # Check for data types 
+        print(df_filtered.dtypes)
+        
+        # Save the filtered dataset
+        df_filtered.to_csv("artifacts/filtered_LAX_dataset_v1.csv")
+        print(f"Data cleaning complete. File saved to the 'artifacts' folder")
+        print(f"Final dataset shape: {df_filtered.shape}")
 
-
+        return df_filtered
 
 
         
-
-
-
+ 
     except FileNotFoundError:
-        print("Error: file not found")
+        print("Error: file not found. Run import script first.")
+        return None
+    except Exception as e:
+        print(f"Error during data cleaning: {str(e)}")
+        return None
+
 
 
 if __name__ == "__main__":
