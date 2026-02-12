@@ -12,6 +12,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import datetime
+import time
 
 def filter_and_clean_data():
     """
@@ -106,9 +108,26 @@ def filter_and_clean_data():
         df_filtered["ARR_DELAY"] = df_filtered["ARR_DELAY"].astype("int64")
         # Check for data types 
         print(df_filtered.dtypes)
-        
+
+        # Data cleaning step 6: create datetime for scheduled departure time
+        df_filtered["CRS_DEP_TIME"] = pd.to_datetime(df_filtered["CRS_DEP_TIME"].fillna(0).astype(str).str.zfill(4), format='%H%M', errors='coerce').dt.time.fillna('00:00')
+        df_filtered["CRS_DEP_TIME"] = pd.to_datetime(df_filtered["CRS_DEP_TIME"].astype('str') + ' ' + df_filtered["DATE"].astype('str'))
+        print(df_filtered.head())
+
+        # Data cleaning step 7: convert to time for departure time
+        df_filtered["DEP_TIME"] = pd.to_datetime(df_filtered["DEP_TIME"].fillna(0).astype(int).astype(str).str.zfill(4),format='%H%M', errors='coerce').dt.time.fillna('00:00')
+        print(df_filtered.head())
+
+        # Data cleaning step 8: convert to time for scheduled departure time
+        df_filtered["CRS_ARR_TIME"] = pd.to_datetime(df_filtered["CRS_ARR_TIME"].fillna(0).astype(int).astype(str).str.zfill(4),format='%H%M', errors='coerce').dt.time.fillna('00:00')
+        print(df_filtered.head())
+
+        # Data cleaning step 9: convert to time for arrival time
+        df_filtered["ARR_TIME"] = pd.to_datetime(df_filtered["ARR_TIME"].fillna(0).astype(int).astype(str).str.zfill(4),format='%H%M', errors='coerce').dt.time.fillna('00:00')
+        print(df_filtered.head())
+
         # Save the filtered dataset
-        df_filtered.to_csv("artifacts/filtered_LAX_dataset_v1.csv")
+        df_filtered.to_csv("artifacts/cleaned_LAX_dataset_v1.csv")
         print(f"Data cleaning complete. File saved to the 'artifacts' folder")
         print(f"Final dataset shape: {df_filtered.shape}")
 
