@@ -127,7 +127,7 @@ def filter_and_clean_data():
         print(df_filtered.head())
 
         # Save the filtered dataset
-        df_filtered.to_csv("artifacts/cleaned_LAX_dataset_v1.csv")
+        df_filtered.to_csv("artifacts/cleaned_LAX_dataset_v1.csv", index = False, header = True)
         print(f"Data cleaning complete. File saved to the 'artifacts' folder")
         print(f"Final dataset shape: {df_filtered.shape}")
 

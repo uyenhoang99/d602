@@ -30,4 +30,11 @@ def load_and_prepare_data():
     Load and prepare data for modeling.
     """
     df = pd.read_csv("C:/Users/uyen/Desktop/d602/artifacts/cleaned_LAX_dataset_v1.csv")
-    print(df.head())
+    print(df.shape)
+
+    # Step 1: calculate the depart hour in seconds
+    
+
+
+if __name__ == "__main__":
+    load_and_prepare_data()
