@@ -22,7 +22,7 @@ def filter_and_clean_data():
     """
     try:
         # Load the raw dataset
-        print("Loading the raw dataset")
+        print("\nLoading the raw dataset")
         df = pd.read_csv("artifacts/data.csv")
         print(df.head())
 
@@ -35,7 +35,7 @@ def filter_and_clean_data():
         print(l_dtype)
 
         # Select required columns
-        print("\nThe total number of columns from the raw dataset:", len(df.columns))
+        print("\nTotal number of columns from the raw dataset:", len(df.columns))
         print("Selecting the required columns:")
         df = df[["YEAR", "MONTH", "DAY_OF_MONTH", "DAY_OF_WEEK", "ORIGIN", "DEST", "CRS_DEP_TIME", "DEP_TIME", "DEP_DELAY", "CRS_ARR_TIME",
                 "ARR_TIME", "ARR_DELAY"]]

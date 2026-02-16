@@ -17,21 +17,21 @@ def import_data():
     """
     try: 
         # Import the dataset
-        print("Importing the dataset")
+        print("\nImporting the dataset")
         df = pd.read_csv("notebook\T_ONTIME_REPORTING.csv")
 
         # Inspect the dataset
         print("\nCounting the number of columns and rows of the dataset:")
         col_count = df.shape[0]
         row_count = df.shape[1]
-        print("There are ", col_count, "columns and ", row_count, "rows in this dataset")
+        print("There are", col_count, "columns and", row_count, "rows in this dataset")
 
         # Inspect the column names
         print("\nObserve the column names")
         print("Column names: ", df.columns)
 
         # Output the raw imported data
-        print("\nOutput the raw imported dataset into the artifacts folder")
+        print("\nOutput the raw imported dataset 'data.csv' into the artifacts folder")
         df.to_csv("artifacts\data.csv", index = False, header = True)
 
         # Complete the data import process
