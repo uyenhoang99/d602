@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import datetime
+from datetime import datetime
 import time
 
 def filter_and_clean_data():
@@ -121,10 +121,11 @@ def filter_and_clean_data():
         # Check for data types 
         print(df_filtered.dtypes)
 
-        # Data cleaning step 6: create datetime for scheduled departure time
+        # Data cleaning step 6: create datetime for scheduled departure
         print("\nCreate datetime data type for 'SCHEDULED_DEPARTURE'")
         df_filtered["SCHEDULED_DEPARTURE"] = pd.to_datetime(df_filtered["SCHEDULED_DEPARTURE"].fillna(0).astype(str).str.zfill(4), format='%H%M', errors='coerce').dt.time.fillna('00:00')
         df_filtered["SCHEDULED_DEPARTURE"] = pd.to_datetime(df_filtered["SCHEDULED_DEPARTURE"].astype('str') + ' ' + df_filtered["DATE"].astype('str'))
+        df_filtered["SCHEDULED_DEPARTURE"] = pd.to_datetime(df_filtered["SCHEDULED_DEPARTURE"])
         print(df_filtered.head())
 
         # Data cleaning step 7: convert to time for departure time
@@ -132,7 +133,7 @@ def filter_and_clean_data():
         df_filtered["DEPARTURE_TIME"] = pd.to_datetime(df_filtered["DEPARTURE_TIME"].fillna(0).astype(int).astype(str).str.zfill(4),format='%H%M', errors='coerce').dt.time.fillna('00:00')
         print(df_filtered.head())
 
-        # # Data cleaning step 8: convert to time for scheduled departure time
+        # # Data cleaning step 8: convert to time for scheduled arrival
         print("\nChange 'integer' values to time (HH:MM:SS) format")
         df_filtered["SCHEDULED_ARRIVAL"] = pd.to_datetime(df_filtered["SCHEDULED_ARRIVAL"].fillna(0).astype(int).astype(str).str.zfill(4),format='%H%M', errors='coerce').dt.time.fillna('00:00')
         print(df_filtered.head())
@@ -144,7 +145,7 @@ def filter_and_clean_data():
 
         # Save the filtered dataset
         df_filtered.to_csv("artifacts/cleaned_LAX_dataset_v1.csv", index = False, header = True)
-        print(f"Data cleaning complete. File saved to the 'artifacts' folder")
+        print("Data cleaning complete. File saved to the 'artifacts' folder")
         print(f"Final dataset shape: {df_filtered.shape}")
 
         return df_filtered
